@@ -8,7 +8,14 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ["eslint.config.mjs", "postcss.config.js", "tailwind.config.js", "e2e/*", "dist/*", "**/*.cjs", ".plasmo/*"],
+    ignores: [
+        ".wxt/*",
+        "dist/*",
+        "node_modules/*",
+        "postcss.config.js",
+        "tailwind.config.js",
+        "wxt.config.ts"
+    ],
   },
   {
     files: ["**/*.{ts,tsx}"],

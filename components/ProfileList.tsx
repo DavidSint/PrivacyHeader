@@ -1,7 +1,7 @@
 import React from "react"
-import { Edit2, Plus, Power, Trash2 } from "lucide-react"
+import { Edit2, Plus, Trash2 } from "lucide-react"
 
-import type { Profile } from "../types"
+import type { Profile } from "@/utils/types"
 import { Button } from "./ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { ScrollArea } from "./ui/scroll-area"

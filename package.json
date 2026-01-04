@@ -5,12 +5,16 @@
   "description": "Privacy-focused HTTP header manipulator",
   "author": "David Sint",
   "scripts": {
-    "dev": "plasmo dev",
-    "build": "plasmo build",
-    "package": "plasmo package"
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "compile": "tsc --noEmit",
+    "postinstall": "wxt prepare"
   },
   "dependencies": {
-    "@plasmohq/storage": "^1.15.0",
     "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-slot": "^1.2.4",
@@ -19,10 +23,9 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.562.0",
-    "plasmo": "0.90.5",
     "postcss": "^8.5.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
     "zod": "^4.3.5"
@@ -37,9 +40,8 @@
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
-    "@typescript-eslint/eslint-plugin": "^8.51.0",
-    "@typescript-eslint/parser": "^8.51.0",
     "@vitejs/plugin-react": "^5.1.2",
+    "@wxt-dev/module-react": "^1.1.5",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
@@ -47,18 +49,9 @@
     "globals": "^17.0.0",
     "jsdom": "^27.4.0",
     "prettier": "3.2.4",
-    "typescript": "5.3.3",
+    "typescript": "^5.3.3",
     "typescript-eslint": "^8.51.0",
-    "vitest": "^4.0.16"
-  },
-  "manifest": {
-    "permissions": [
-      "declarativeNetRequest",
-      "declarativeNetRequestWithHostAccess",
-      "storage"
-    ],
-    "host_permissions": [
-      "<all_urls>"
-    ]
+    "vitest": "^4.0.16",
+    "wxt": "^0.20.6"
   }
 }

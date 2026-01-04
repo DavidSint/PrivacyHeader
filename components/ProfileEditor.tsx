@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Plus, Trash2, X } from "lucide-react"
 import { z } from "zod"
 
-import type { Header, Profile } from "../types"
+import type { Header, Profile } from "@/utils/types"
 import { Button } from "./ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Input } from "./ui/input"
@@ -68,11 +68,7 @@ export function ProfileEditor({ profile, onSave, onCancel }: ProfileEditorProps)
       // Validate
       // We check if headers are valid (name and value present)
       const validHeaders = newProfile.headers.filter(h => h.name && h.value)
-      if (validHeaders.length !== newProfile.headers.length) {
-          // Some headers are incomplete
-          // For now let's just use the valid ones or show error?
-          // Let's show error if any header field is filled but incomplete
-      }
+      // Check if we have headers that are partially filled
 
       const result = profileSchema.parse({
           ...newProfile,
@@ -147,7 +143,7 @@ export function ProfileEditor({ profile, onSave, onCancel }: ProfileEditorProps)
 
           <ScrollArea className="h-[200px] w-full rounded-md border p-4">
             <div className="space-y-3">
-              {headers.map((header, index) => (
+              {headers.map((header, _index) => (
                 <div key={header.id} className="flex items-start gap-2">
                   <div className="grid flex-1 gap-2">
                     <Input
