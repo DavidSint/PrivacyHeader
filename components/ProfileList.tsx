@@ -26,11 +26,16 @@ export function ProfileList({
     <Card className="w-full h-full border-0 shadow-none flex flex-col">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <CardTitle>Privacy Header</CardTitle>
-            <CardDescription>
-              Manage your header profiles.
-            </CardDescription>
+          <div className="flex items-center gap-3">
+            <img src="/logo.svg" alt="Privacy Header Logo" className="w-8 h-8" />
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <CardTitle>Privacy Header</CardTitle>
+              </div>
+              <CardDescription>
+                Manage your header profiles.
+              </CardDescription>
+            </div>
           </div>
           <Button onClick={onAddProfile} size="sm">
             <Plus className="mr-2 h-4 w-4" /> New Profile
