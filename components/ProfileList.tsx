@@ -37,8 +37,8 @@ export function ProfileList({
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="flex-1 overflow-hidden p-0">
-        <ScrollArea className="h-[400px] px-6 pb-6">
+      <CardContent className="flex-1 min-h-0 p-0">
+        <ScrollArea className="h-full px-6 pb-6">
           <div className="space-y-4">
             {profiles.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-8 text-center text-muted-foreground">

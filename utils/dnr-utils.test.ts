@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeAll } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
 import { generateRulesFromProfiles } from './dnr-utils'
 import type { Profile } from './types'
 
@@ -29,7 +29,7 @@ beforeAll(() => {
         OTHER: 'other'
       }
     }
-  } as any
+  } as unknown as typeof chrome
 })
 
 describe('generateRulesFromProfiles', () => {
@@ -66,7 +66,7 @@ describe('generateRulesFromProfiles', () => {
     expect(rules).toEqual([])
   })
 
-  it('should generate a valid rule for an enabled profile with APPEND operation', () => {
+  it('should generate a valid rule for an enabled profile with SET operation', () => {
     const profiles: Profile[] = [
       {
         id: '1',
@@ -83,7 +83,7 @@ describe('generateRulesFromProfiles', () => {
     expect(rules[0].condition.regexFilter).toBe('example.com')
     expect(rules[0].action.type).toBe('modifyHeaders')
     expect(rules[0].action.requestHeaders).toEqual([
-      { header: 'X-Test', operation: 'append', value: '123' }
+      { header: 'X-Test', operation: 'set', value: '123' }
     ])
   })
 
@@ -113,5 +113,29 @@ describe('generateRulesFromProfiles', () => {
     // Second in list has lower priority (len(2) - idx(1) = 1)
     expect(rules[1].priority).toBe(1)
     expect(rules[1].action.requestHeaders?.[0].header).toBe('B')
+  })
+
+  it('should use native SET/APPEND for standard headers and merged SET for custom ones', () => {
+    const profiles: Profile[] = [
+      {
+        id: '1',
+        name: 'Test',
+        urlRegex: '.*',
+        headers: [
+          { id: 'h1', name: 'User-Agent', value: 'ua1' },
+          { id: 'h2', name: 'User-Agent', value: 'ua2' },
+          { id: 'h3', name: 'X-Custom', value: 'c1' },
+          { id: 'h4', name: 'X-Custom', value: 'c2' }
+        ],
+        enabled: true
+      }
+    ]
+    const rules = generateRulesFromProfiles(profiles)
+    expect(rules).toHaveLength(1)
+    expect(rules[0].action.requestHeaders).toEqual([
+      { header: 'User-Agent', operation: 'set', value: 'ua1' },
+      { header: 'User-Agent', operation: 'append', value: 'ua2' },
+      { header: 'X-Custom', operation: 'set', value: 'c1, c2' }
+    ])
   })
 })

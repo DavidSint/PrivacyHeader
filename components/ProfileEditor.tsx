@@ -98,50 +98,54 @@ export function ProfileEditor({ profile, onSave, onCancel }: ProfileEditorProps)
   }
 
   return (
-    <Card className="w-full h-full border-0 shadow-none">
-      <CardHeader className="pb-4">
+    <Card className="w-full h-full border-0 shadow-none flex flex-col">
+      <CardHeader className="p-4 pb-2 shrink-0">
         <div className="flex items-center justify-between">
-            <CardTitle>{profile ? "Edit Profile" : "New Profile"}</CardTitle>
-            <Button variant="ghost" size="icon" onClick={onCancel}>
+            <CardTitle className="text-xl">
+              {profile ? "Edit Profile" : "New Profile"}
+            </CardTitle>
+            <Button variant="ghost" size="icon" onClick={onCancel} className="h-8 w-8">
                 <X className="h-4 w-4" />
             </Button>
         </div>
-        <CardDescription>
+        <CardDescription className="text-xs">
           Configure headers to be injected for requests matching the URL regex.
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4 pb-0">
-        <div className="space-y-2">
-          <Label htmlFor="name">Profile Name</Label>
+      <CardContent className="space-y-3 p-4 pt-0 flex-1 overflow-y-auto">
+        <div className="space-y-1">
+          <Label htmlFor="name" className="text-xs">Profile Name</Label>
           <Input
             id="name"
             placeholder="e.g. Staging Environment"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="h-9"
           />
-          {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
+          {errors.name && <p className="text-[10px] text-destructive">{errors.name}</p>}
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="regex">URL Regex</Label>
+        <div className="space-y-1">
+          <Label htmlFor="regex" className="text-xs">URL Regex</Label>
           <Input
             id="regex"
             placeholder="e.g. https://staging\.example\.com/.*"
             value={urlRegex}
             onChange={(e) => setUrlRegex(e.target.value)}
+            className="h-9"
           />
-          {errors.urlRegex && <p className="text-xs text-destructive">{errors.urlRegex}</p>}
+          {errors.urlRegex && <p className="text-[10px] text-destructive">{errors.urlRegex}</p>}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 pt-1">
           <div className="flex items-center justify-between">
-            <Label>Headers</Label>
-            <Button variant="outline" size="sm" onClick={handleAddHeader} className="h-7 px-2">
+            <Label className="text-xs">Headers</Label>
+            <Button variant="outline" size="sm" onClick={handleAddHeader} className="h-7 px-2 text-xs">
               <Plus className="mr-1 h-3 w-3" /> Add Header
             </Button>
           </div>
-          {errors.headers && <p className="text-xs text-destructive">{errors.headers}</p>}
+          {errors.headers && <p className="text-[10px] text-destructive">{errors.headers}</p>}
 
-          <ScrollArea className="h-[200px] w-full rounded-md border">
+          <ScrollArea className="h-[180px] w-full rounded-md border">
             <div className="p-4 space-y-3">
               {headers.map((header, _index) => (
                 <div key={header.id} className="flex items-start gap-2">
@@ -182,9 +186,9 @@ export function ProfileEditor({ profile, onSave, onCancel }: ProfileEditorProps)
           </ScrollArea>
         </div>
       </CardContent>
-      <CardFooter className="pt-4 justify-end gap-2">
-        <Button variant="outline" onClick={onCancel}>Cancel</Button>
-        <Button onClick={handleSave}>Save Profile</Button>
+      <CardFooter className="p-4 justify-end gap-2 shrink-0">
+        <Button variant="outline" onClick={onCancel} className="h-9 px-4">Cancel</Button>
+        <Button onClick={handleSave} className="h-9 px-4">Save Profile</Button>
       </CardFooter>
     </Card>
   )

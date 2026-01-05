@@ -9,12 +9,13 @@ export default [
   ...tseslint.configs.recommended,
   {
     ignores: [
-        ".wxt/*",
-        "dist/*",
-        "node_modules/*",
-        "postcss.config.js",
-        "tailwind.config.js",
-        "wxt.config.ts"
+      ".wxt/**",
+      ".output/**",
+      "dist/**",
+      "node_modules/**",
+      "postcss.config.js",
+      "tailwind.config.js",
+      "wxt.config.ts"
     ],
   },
   {
