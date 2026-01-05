@@ -35,7 +35,7 @@ const profileSchema = z.object({
 
 export function ProfileEditor({ profile, onSave, onCancel }: ProfileEditorProps) {
   const [name, setName] = useState(profile?.name || "")
-  const [urlRegex, setUrlRegex] = useState(profile?.urlRegex || "https://.*")
+  const [urlRegex, setUrlRegex] = useState(profile?.urlRegex || "^https?://.*")
   const [headers, setHeaders] = useState<Header[]>(
     profile?.headers || [{ id: crypto.randomUUID(), name: "", value: "" }]
   )
@@ -85,7 +85,7 @@ export function ProfileEditor({ profile, onSave, onCancel }: ProfileEditorProps)
     } catch (error) {
       if (error instanceof z.ZodError) {
         const newErrors: Record<string, string> = {}
-        error.errors.forEach((err) => {
+        error.issues.forEach((err) => {
           if (err.path[0] === "headers") {
               newErrors["headers"] = "All headers must have a name and value"
           } else {

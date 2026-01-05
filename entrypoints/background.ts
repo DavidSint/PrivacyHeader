@@ -1,36 +1,47 @@
 import { generateRulesFromProfiles } from "@/utils/dnr-utils";
 import type { Profile } from "@/utils/types";
-import { storage } from "wxt/storage";
+import { storage } from '#imports';
 
 export default defineBackground(() => {
-  // Listen for changes in the storage
-  storage.watch<Profile[]>("local:profiles", async (newProfiles, _oldProfiles) => {
-    if (newProfiles) {
-      console.log("Profiles updated:", newProfiles);
-      await updateDynamicRules(newProfiles);
+  // Initial sync when the background script starts
+  const syncRules = async () => {
+    const profiles = await storage.getItem<Profile[]>("local:profiles");
+    if (profiles) {
+      console.log("Initial profile sync:", profiles);
+      await updateDynamicRules(profiles);
     }
+  };
+
+  syncRules();
+
+  // Listen for changes in the storage
+  storage.watch<Profile[]>("local:profiles", async (newProfiles) => {
+    console.log("Profiles updated in storage, re-applying rules:", newProfiles);
+    await updateDynamicRules(newProfiles || []);
   });
 
   async function updateDynamicRules(profiles: Profile[]) {
-    // Generate the new rules
-    const newRules = generateRulesFromProfiles(profiles);
+    try {
+      // Generate the new rules
+      const newRules = generateRulesFromProfiles(profiles);
 
-    // Get existing dynamic rules to remove them first
-    const existingRules = await chrome.declarativeNetRequest.getDynamicRules();
-    const existingRuleIds = existingRules.map((rule) => rule.id);
+      // Get existing dynamic rules to remove them all
+      const existingRules = await chrome.declarativeNetRequest.getDynamicRules();
+      const existingRuleIds = existingRules.map((rule) => rule.id);
 
-    // Update dynamic rules
-    // We remove all existing ones and add the new ones to ensure consistency
-    await chrome.declarativeNetRequest.updateDynamicRules({
-      removeRuleIds: existingRuleIds,
-      addRules: newRules,
-    });
+      // Update dynamic rules
+      // We remove all existing ones and add the new ones to ensure consistency
+      await chrome.declarativeNetRequest.updateDynamicRules({
+        removeRuleIds: existingRuleIds,
+        addRules: newRules,
+      });
 
-    console.log("Dynamic rules updated:", newRules);
+      console.log("Dynamic rules updated. Total rules active:", newRules.length);
+      if (newRules.length > 0) {
+        console.debug("Rules detail:", JSON.stringify(newRules, null, 2));
+      }
+    } catch (error) {
+      console.error("Failed to update dynamic rules:", error);
+    }
   }
-
-  // On install or startup, we might want to ensure rules are synced with storage
-  // But storage watch should handle updates.
-  // However, if the extension reloads, we might want to re-apply rules just in case.
-  // Note: WXT storage.watch triggers on change, but maybe not on initial load if we don't read it.
 });

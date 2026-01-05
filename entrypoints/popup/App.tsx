@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./style.css";
-import { storage } from "wxt/storage";
+import { storage } from '#imports';
 
 import type { Profile } from "@/utils/types";
 import { ProfileEditor } from "@/components/ProfileEditor";
@@ -77,7 +77,7 @@ function App() {
   }
 
   return (
-    <div className="w-[500px] h-[550px] bg-background text-foreground flex flex-col">
+    <div className="w-full h-full bg-background text-foreground flex flex-col">
       {view === "list" && (
         <ProfileList
           profiles={profiles || []}
