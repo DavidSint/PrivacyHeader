@@ -141,18 +141,18 @@ export function ProfileEditor({ profile, onSave, onCancel }: ProfileEditorProps)
           </div>
           {errors.headers && <p className="text-xs text-destructive">{errors.headers}</p>}
 
-          <ScrollArea className="h-[200px] w-full rounded-md border p-4">
-            <div className="space-y-3">
+          <ScrollArea className="h-[200px] w-full rounded-md border">
+            <div className="p-4 space-y-3">
               {headers.map((header, _index) => (
                 <div key={header.id} className="flex items-start gap-2">
-                  <div className="grid flex-1 gap-2">
+                  <div className="flex flex-1 gap-2">
                     <Input
                       placeholder="Header Name"
                       value={header.name}
                       onChange={(e) =>
                         handleHeaderChange(header.id, "name", e.target.value)
                       }
-                      className="h-8"
+                      className="h-8 flex-1"
                     />
                     <Input
                       placeholder="Header Value"
@@ -160,13 +160,13 @@ export function ProfileEditor({ profile, onSave, onCancel }: ProfileEditorProps)
                       onChange={(e) =>
                         handleHeaderChange(header.id, "value", e.target.value)
                       }
-                      className="h-8"
+                      className="h-8 flex-2"
                     />
                   </div>
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                    className="h-8 w-8 text-muted-foreground hover:text-destructive shrink-0"
                     onClick={() => handleRemoveHeader(header.id)}
                   >
                     <Trash2 className="h-4 w-4" />

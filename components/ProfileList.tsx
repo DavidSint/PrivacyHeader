@@ -49,9 +49,10 @@ export function ProfileList({
               profiles.map((profile) => (
                 <div
                   key={profile.id}
-                  className="flex items-center justify-between rounded-lg border p-4 shadow-sm transition-colors hover:bg-muted/50"
+                  onClick={() => onEditProfile(profile)}
+                  className="flex items-center justify-between rounded-lg border p-4 shadow-sm transition-all hover:bg-muted hover:shadow-md hover:border-primary/20 cursor-pointer"
                 >
-                  <div className="space-y-1 overflow-hidden mr-4">
+                  <div className="flex-1 space-y-1 overflow-hidden mr-4">
                     <p className="font-medium leading-none truncate" title={profile.name}>{profile.name}</p>
                     <p className="text-sm text-muted-foreground truncate" title={profile.urlRegex}>
                       {profile.urlRegex}
@@ -63,14 +64,18 @@ export function ProfileList({
                   <div className="flex items-center space-x-2 shrink-0">
                     <Switch
                       checked={profile.enabled}
-                      onCheckedChange={(checked) =>
-                        onToggleProfile(profile.id, checked)
-                      }
+                      onCheckedChange={(checked) => {
+                        onToggleProfile(profile.id, checked);
+                      }}
+                      onClick={(e) => e.stopPropagation()}
                     />
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => onEditProfile(profile)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditProfile(profile);
+                      }}
                     >
                       <Edit2 className="h-4 w-4" />
                     </Button>
@@ -78,7 +83,10 @@ export function ProfileList({
                       variant="ghost"
                       size="icon"
                       className="text-destructive hover:text-destructive"
-                      onClick={() => onDeleteProfile(profile.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDeleteProfile(profile.id);
+                      }}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
