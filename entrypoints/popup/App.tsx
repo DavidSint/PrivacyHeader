@@ -49,15 +49,17 @@ function App() {
   };
 
   const handleSaveProfile = async (profile: Profile) => {
+    const existingIndex = profiles.findIndex((p) => p.id === profile.id);
     let newProfiles;
-    if (editingProfile) {
-      // Update existing
+    if (existingIndex >= 0) {
       newProfiles = profiles.map((p) => (p.id === profile.id ? profile : p));
     } else {
-      // Add new
       newProfiles = [...profiles, profile];
     }
     await saveProfiles(newProfiles);
+  };
+
+  const handleCloseEditor = () => {
     setView("list");
     setEditingProfile(undefined);
   };
@@ -91,10 +93,7 @@ function App() {
         <ProfileEditor
           profile={editingProfile}
           onSave={handleSaveProfile}
-          onCancel={() => {
-            setView("list");
-            setEditingProfile(undefined);
-          }}
+          onClose={handleCloseEditor}
         />
       )}
     </div>
