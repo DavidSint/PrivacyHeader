@@ -1,0 +1,30 @@
+---
+title: Permissions
+description: Why we need specific browser permissions
+icon: Shield
+---
+
+## Permissions Explained
+
+Privacy Header is built with privacy as a first principle. We request only the permissions necessary to provide the core functionality of modifying network headers, and we use the most modern, privacy-preserving APIs available.
+
+### Required Permissions
+
+#### `declarativeNetRequest` & `declarativeNetRequestWithHostAccess`
+
+These are the primary permissions that allow Privacy Header to function.
+
+- **Why**: They enable the extension to define rules that the browser uses to modify network headers (like `User-Agent`, `Referer`, or custom headers) on your behalf.
+- **Privacy Note**: Unlike older extensions using the `webRequest` API, the **declarative** API is much safer. The extension provides a list of rules to the browser, and the **browser itself** handles the execution. The extension **never sees your actual network traffic, URLs, or data**.
+
+#### Host Permissions (`<all_urls>`)
+
+Often displayed by your browser as "Access to all websites" or "Read and change all your data on all websites you visit."
+
+- **Why**: In order for a header modification to apply to a website, the extension must have permission to interact with that host. Since Privacy Header allows you to create custom profiles for any domain, we request access to all URLs so that your rules work wherever you define them.
+- **Privacy Note**: Although the browser warning sounds broad, because we use the `declarativeNetRequest` API, the extension **cannot** actually read your page content, form data, or browsing history. It only has the permission to ask the browser to modify headers.
+
+#### `storage`
+
+- **Why**: Used to save your profiles, header configurations, and settings locally on your device.
+- **Privacy Note**: Your configurations are stored locally in your browser's storage. We do not sync your data to any external servers or third parties.

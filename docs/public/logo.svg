@@ -1,0 +1,25 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a202c" />
+      <stop offset="100%" stop-color="#0d1117" />
+    </linearGradient>
+    <linearGradient id="hGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+  </defs>
+  <!-- Shield Background -->
+  <path d="M64 8C44 8 20 16 20 16V60C20 92 48 116 64 120C80 116 108 92 108 60V16C108 16 84 8 64 8Z" fill="url(#bgGrad)" />
+  <path d="M64 10C46 10 24 18 24 18V58C24 88 48 112 64 116C80 112 104 88 104 58V18C104 18 82 10 64 10Z" fill="white" opacity="0.05" />
+
+  <!-- Stylized 'H' for Headers -->
+  <g transform="translate(41, 42)">
+    <!-- Right side column -->
+    <rect x="34" y="-7" width="12" height="48" rx="3" fill="url(#hGrad)" />
+    <!-- Left side column -->
+    <rect x="0" y="-7" width="12" height="48" rx="3" fill="url(#hGrad)" />
+    <!-- Center connector -->
+    <rect x="12" y="12" width="22" height="10" fill="url(#hGrad)" />
+  </g>
+</svg>
