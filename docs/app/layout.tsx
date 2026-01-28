@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: "Privacy Header Docs",
   description: "Documentation for Privacy Header extension",
   icons: {
-    icon: "/logo.svg",
+    icon: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/logo.svg`,
   },
 };
 

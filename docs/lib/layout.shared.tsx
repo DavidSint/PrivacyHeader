@@ -6,7 +6,12 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: (
         <>
-          <Image src="/logo.svg" alt="Privacy Header" width={24} height={24} />
+          <Image
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/logo.svg`}
+            alt="Privacy Header"
+            width={24}
+            height={24}
+          />
           <span className="font-medium">Privacy Header</span>
         </>
       ),
