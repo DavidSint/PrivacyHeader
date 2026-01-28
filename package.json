@@ -1,7 +1,7 @@
 {
   "name": "privacy-header",
   "displayName": "Privacy header",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Privacy-focused HTTP header manipulator",
   "author": "David Sint",
   "type": "module",
