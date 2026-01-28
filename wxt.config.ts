@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   manifest: {
+    name: "Privacy Header",
     permissions: [
       "storage",
       "declarativeNetRequest",
