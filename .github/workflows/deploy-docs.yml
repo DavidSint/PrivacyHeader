@@ -44,16 +44,16 @@ jobs:
         working-directory: ./docs
         run: pnpm build
         env:
-          VITE_BASE_URL: /PrivacyHeader/
+          NEXT_PUBLIC_BASE_PATH: /PrivacyHeader
 
       - name: Create 404.html
         working-directory: ./docs
-        run: cp dist/client/index.html dist/client/404.html
+        run: cp out/index.html out/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/dist/client
+          path: docs/out
 
   deploy:
     environment:
