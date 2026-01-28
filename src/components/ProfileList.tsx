@@ -1,5 +1,4 @@
-import React from "react"
-import { Edit2, Plus, Trash2 } from "lucide-react"
+import { Plus, Trash2 } from "lucide-react"
 
 import type { Profile } from "@/utils/types"
 import { Button } from "./ui/button"
@@ -72,13 +71,13 @@ export function ProfileList({
                       onCheckedChange={(checked) => {
                         onToggleProfile(profile.id, checked);
                       }}
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e: React.MouseEvent) => e.stopPropagation()}
                     />
                     <Button
                       variant="ghost"
                       size="icon"
                       className="text-destructive hover:text-destructive"
-                      onClick={(e) => {
+                      onClick={(e: React.MouseEvent) => {
                         e.stopPropagation();
                         onDeleteProfile(profile.id);
                       }}
