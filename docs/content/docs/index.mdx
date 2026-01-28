@@ -1,0 +1,34 @@
+---
+title: Introduction
+description: Getting started with Privacy Header
+icon: House
+---
+
+## Privacy Header
+
+A privacy-focused browser extension for granular HTTP header manipulation. It leverages the modern `declarativeNetRequest` API to modify headers securely and efficiently without reading your request data.
+
+### Features
+
+- **Profile Management**: Create, edit, and toggle multiple header modification profiles.
+- **Regex Targeting**: Apply modifications only to specific domains or URLs using powerful regex patterns.
+- **Dynamic Header Operations**:
+  - **Set/Replace**: Override existing headers.
+  - **Append**: Safely add multiple values (e.g., for `Cookie` or `Accept` headers).
+- **Privacy First**: Uses your browser's native filtering engine - your request data stays in the browser and is never read by the extension.
+- **Modern UI**: Clean, responsive interface built with Shadcn/UI components.
+
+### Getting Started
+
+<Cards>
+  <Card
+    title="Managing Profiles"
+    href="/profiles"
+    description="Learn how to create and manage header profiles."
+  />
+  <Card
+    title="Adding Headers"
+    href="/headers"
+    description="Understand how to add and modify HTTP headers."
+  />
+</Cards>

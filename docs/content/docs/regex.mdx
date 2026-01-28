@@ -1,0 +1,46 @@
+---
+title: Regex Targeting
+description: Apply headers to specific URLs using Regex
+icon: Code
+---
+
+## Regex Targeting
+
+One of the most powerful features of Privacy Header is the ability to apply headers only when the URL matches a specific pattern.
+
+### How it Works
+
+When adding a header, you can specify a **Regex** pattern. The extension checks the URL of every outgoing request against this pattern.
+
+- If the URL **matches**, the header is modified.
+- If the URL **does not match**, the header is left unchanged.
+
+### Examples
+
+#### Match a specific domain
+
+To apply headers only to `example.com`:
+
+```regex
+^https?:\/\/(www\.)?example\.com\/.*
+```
+
+#### Match all subdomains
+
+To apply headers to `api.test.com`, `app.test.com`, etc.:
+
+```regex
+^https?:\/\/.*\.test\.com\/.*
+```
+
+#### Match a specific path
+
+To apply headers only to API requests:
+
+```regex
+.*\/api\/v1\/.*
+```
+
+#### Match Everything (Default)
+
+If you leave the regex field empty or use `.*`, the header will be applied to **all** requests.
