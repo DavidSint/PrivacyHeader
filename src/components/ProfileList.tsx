@@ -1,8 +1,16 @@
-import { Plus, Trash2 } from "lucide-react"
+import { useRef } from "react"
+import { Download, MoreVertical, Plus, Trash2, Upload } from "lucide-react"
 
+import { exportProfiles, importProfilesFromFile } from "@/utils/io"
 import type { Profile } from "@/utils/types"
 import { Button } from "./ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu"
 import { ScrollArea } from "./ui/scroll-area"
 import { Switch } from "./ui/switch"
 
@@ -12,6 +20,7 @@ interface ProfileListProps {
   onEditProfile: (profile: Profile) => void
   onDeleteProfile: (id: string) => void
   onToggleProfile: (id: string, enabled: boolean) => void
+  onImportProfiles: (profiles: Profile[]) => void
 }
 
 export function ProfileList({
@@ -19,8 +28,36 @@ export function ProfileList({
   onAddProfile,
   onEditProfile,
   onDeleteProfile,
-  onToggleProfile
+  onToggleProfile,
+  onImportProfiles
 }: ProfileListProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleExport = () => {
+    exportProfiles(profiles)
+  }
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    try {
+      const imported = await importProfilesFromFile(file)
+      onImportProfiles(imported)
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to import")
+    }
+    
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }
+
   return (
     <Card className="w-full h-full border-0 shadow-none flex flex-col">
       <CardHeader className="pb-4">
@@ -36,9 +73,34 @@ export function ProfileList({
               </CardDescription>
             </div>
           </div>
-          <Button onClick={onAddProfile} size="sm">
-            <Plus className="mr-2 h-4 w-4" /> New Profile
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={onAddProfile} size="sm">
+              <Plus className="mr-2 h-4 w-4" /> New Profile
+            </Button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              accept=".json"
+              onChange={handleFileChange}
+            />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" data-testid="menu-button">
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={handleImportClick}>
+                  <Upload className="mr-2 h-4 w-4" /> Import JSON
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleExport}>
+                  <Download className="mr-2 h-4 w-4" /> Export JSON
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="flex-1 min-h-0 p-0">

@@ -122,8 +122,8 @@ describe('generateRulesFromProfiles', () => {
         name: 'Test',
         urlRegex: '.*',
         headers: [
-          { id: 'h1', name: 'User-Agent', value: 'ua1' },
-          { id: 'h2', name: 'User-Agent', value: 'ua2' },
+          { id: 'h1', name: 'Accept', value: 'text/html' },
+          { id: 'h2', name: 'Accept', value: 'application/json' },
           { id: 'h3', name: 'X-Custom', value: 'c1' },
           { id: 'h4', name: 'X-Custom', value: 'c2' }
         ],
@@ -133,9 +133,49 @@ describe('generateRulesFromProfiles', () => {
     const rules = generateRulesFromProfiles(profiles)
     expect(rules).toHaveLength(1)
     expect(rules[0].action.requestHeaders).toEqual([
-      { header: 'User-Agent', operation: 'set', value: 'ua1' },
-      { header: 'User-Agent', operation: 'append', value: 'ua2' },
+      { header: 'Accept', operation: 'set', value: 'text/html' },
+      { header: 'Accept', operation: 'append', value: 'application/json' },
       { header: 'X-Custom', operation: 'set', value: 'c1, c2' }
+    ])
+  })
+
+  it('should merge Cookie headers with a semicolon separator', () => {
+    const profiles: Profile[] = [
+      {
+        id: '1',
+        name: 'Cookie Test',
+        urlRegex: '.*',
+        headers: [
+          { id: 'h1', name: 'Cookie', value: 'foo=1' },
+          { id: 'h2', name: 'Cookie', value: 'bar=2' }
+        ],
+        enabled: true
+      }
+    ]
+    const rules = generateRulesFromProfiles(profiles)
+    expect(rules).toHaveLength(1)
+    expect(rules[0].action.requestHeaders).toEqual([
+      { header: 'Cookie', operation: 'set', value: 'foo=1; bar=2' }
+    ])
+  })
+
+  it('should merge User-Agent headers with a space separator', () => {
+    const profiles: Profile[] = [
+      {
+        id: '1',
+        name: 'UA Test',
+        urlRegex: '.*',
+        headers: [
+          { id: 'h1', name: 'User-Agent', value: 'Mozilla/5.0' },
+          { id: 'h2', name: 'User-Agent', value: '(compatible; TestBot/1.0)' }
+        ],
+        enabled: true
+      }
+    ]
+    const rules = generateRulesFromProfiles(profiles)
+    expect(rules).toHaveLength(1)
+    expect(rules[0].action.requestHeaders).toEqual([
+      { header: 'User-Agent', operation: 'set', value: 'Mozilla/5.0 (compatible; TestBot/1.0)' }
     ])
   })
 })

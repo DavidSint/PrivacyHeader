@@ -18,11 +18,19 @@ For each profile, you can define multiple headers to modify.
 
 ### Header Fields
 
-- **Name**: The HTTP header name (e.g., `User-Agent`, `Authorization`, `X-Custom-Header`).
-- **Value**: The value you want to set for the named header.
+- **Name**: The HTTP header name (e.g., `User-Agent`, `Authorization`, `X-Custom-Header`). Required.
+- **Value**: The value you want to set for the named header. Optional — leave empty to remove the header.
+
+### Removing Headers
+
+To remove an existing header from requests, simply leave the **Value** field empty. This will unset any header with the specified name. This is particularly useful for:
+
+- Removing tracking headers like `Referer` or `X-Requested-With`
+- Stripping identifying information from requests
+- Disabling certain browser-added headers
 
 ### Common Use Cases
 
 - **Spoofing User-Agent**: Change your `User-Agent` to look like a mobile device or a different browser.
 - **Adding Auth Tokens**: Inject `Authorization: Bearer <token>` for testing APIs.
-- **Privacy**: Remove or modify tracking headers.
+- **Privacy**: Remove or modify tracking headers by leaving values empty or changing them.

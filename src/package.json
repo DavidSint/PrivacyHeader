@@ -1,7 +1,7 @@
 {
   "name": "privacy-header",
   "displayName": "Privacy header",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Privacy-focused HTTP header manipulator",
   "author": "David Sint",
   "type": "module",
@@ -17,10 +17,13 @@
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:all": "pnpm run test && pnpm run test:e2e",
     "check": "pnpm run lint && pnpm run test",
     "postinstall": "wxt prepare"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-slot": "^1.2.4",

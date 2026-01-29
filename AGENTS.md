@@ -38,3 +38,6 @@ The public documentation site.
 
 3.  **Deployment**:
     - The `docs` folder is deployed via GitHub Actions (`.github/workflows/deploy-docs.yml`).
+
+4.  **Package Manager**:
+    - Use `pnpm` for package management.

@@ -11,6 +11,9 @@ export default defineConfig({
       "declarativeNetRequestWithHostAccess"
     ],
     host_permissions: ["<all_urls>"],
+    background: {
+      persistent: false
+    },
     icons: {
       "16": "icon/16.png",
       "32": "icon/32.png",

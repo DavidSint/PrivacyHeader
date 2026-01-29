@@ -17,7 +17,7 @@ interface ProfileEditorProps {
 
 const headerSchema = z.object({
   name: z.string().min(1, "Header name is required"),
-  value: z.string().min(1, "Header value is required")
+  value: z.string()
 })
 
 const profileSchema = z.object({
@@ -42,8 +42,8 @@ const createEmptyHeader = (): Header => ({
 const isHeaderEmpty = (header: Header): boolean =>
   header.name.trim() === "" && header.value.trim() === ""
 
-const isHeaderComplete = (header: Header): boolean =>
-  header.name.trim() !== "" && header.value.trim() !== ""
+const isHeaderValid = (header: Header): boolean =>
+  header.name.trim() !== ""
 
 export function ProfileEditor({ profile, onSave, onClose }: ProfileEditorProps) {
   const [profileId] = useState(() => profile?.id || crypto.randomUUID())
@@ -62,7 +62,7 @@ export function ProfileEditor({ profile, onSave, onClose }: ProfileEditorProps) 
 
   const attemptSave = useCallback(() => {
     const filledHeaders = getFilledHeaders()
-    const validHeaders = filledHeaders.filter(isHeaderComplete)
+    const validHeaders = filledHeaders.filter(isHeaderValid)
 
     const newProfile = {
       id: profileId,
@@ -87,13 +87,15 @@ export function ProfileEditor({ profile, onSave, onClose }: ProfileEditorProps) 
       setErrors({})
     } else {
       const newErrors: Record<string, string> = {}
-      result.error.issues.forEach((err) => {
-        if (err.path[0] === "headers") {
-          newErrors["headers"] = "All headers must have a name and value"
-        } else {
-          newErrors[String(err.path[0])] = err.message
-        }
-      })
+      if (!result.success) {
+        result.error.issues.forEach((err) => {
+          if (err.path[0] === "headers") {
+            newErrors["headers"] = "All headers must have a name"
+          } else {
+            newErrors[String(err.path[0])] = err.message
+          }
+        })
+      }
       setErrors(newErrors)
     }
   }, [profileId, name, urlRegex, profile?.enabled, getFilledHeaders, onSave])

@@ -1,4 +1,9 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const extensionPath = path.resolve(__dirname, '.output/chrome-mv3');
 
 export default defineConfig({
   testDir: './e2e',
@@ -13,7 +18,15 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        launchOptions: {
+          args: [
+            `--disable-extensions-except=${extensionPath}`,
+            `--load-extension=${extensionPath}`,
+            '--no-sandbox',
+          ],
+        },
+      },
     },
   ],
 });

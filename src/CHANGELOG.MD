@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.3
+
+1. Add end-to-end testing with Playwright
+2. Update unit test setup with Vitest
+3. Clean up unused entrypoints and files
+4. Improve profile editor validation
+5. Remove background persistence
+6. Add import/export functionality
+
 ## 0.0.2
 
 1. Rename license file to US-EN spelling

@@ -1,0 +1,93 @@
+---
+title: Import & Export
+description: How to backup and share your profile configurations
+icon: ArrowLeftRight
+---
+
+## Import & Export
+
+Privacy Header allows you to export your profiles to a JSON file and import profiles from a file. This is useful for:
+
+- **Backing up** your configurations
+- **Sharing** profiles with colleagues or across devices
+- **Migrating** settings to a new browser or computer
+
+### Exporting Profiles
+
+To export your current profiles:
+
+1. Open the extension popup.
+2. Click the **menu button** (⋮) in the top-right corner.
+3. Select **"Export JSON"**.
+4. A file named `privacy-header-profiles.json` will be downloaded.
+
+The exported JSON file contains all your profiles, including:
+
+- Profile names and enabled states
+- URL regex patterns
+- All headers with their names and values
+
+### Importing Profiles
+
+To import profiles from a JSON file:
+
+1. Open the extension popup.
+2. Click the **menu button** (⋮) in the top-right corner.
+3. Select **"Import JSON"**.
+4. Choose a valid Privacy Header JSON file.
+
+**Important notes:**
+
+- Imported profiles are **added** to your existing profiles, not replaced.
+- Invalid files will show an error message and not be imported.
+
+### File Format
+
+The export file is a JSON array of profile objects. Here's an example:
+
+```json
+[
+  {
+    "id": "abc123",
+    "name": "Privacy Headers",
+    "urlRegex": ".*",
+    "headers": [
+      {
+        "id": "header1",
+        "name": "X-Custom-Header",
+        "value": "my-value"
+      }
+    ],
+    "enabled": true
+  }
+]
+```
+
+Each profile must include:
+
+| Field      | Type    | Description                       |
+| ---------- | ------- | --------------------------------- |
+| `id`       | string  | Unique identifier for the profile |
+| `name`     | string  | Display name for the profile      |
+| `urlRegex` | string  | Regular expression to match URLs  |
+| `headers`  | array   | List of header objects            |
+| `enabled`  | boolean | Whether the profile is active     |
+
+Each header must include:
+
+| Field   | Type   | Description                                          |
+| ------- | ------ | ---------------------------------------------------- |
+| `id`    | string | Unique identifier for the header                     |
+| `name`  | string | The HTTP header name                                 |
+| `value` | string | The header value (empty string to remove the header) |
+
+### Validation
+
+When importing, the file is validated to ensure:
+
+- The file contains valid JSON syntax
+- The root element is an array
+- Each profile has all required fields with correct types
+- Each header has the required `id`, `name`, and `value` fields
+
+If validation fails, the import is rejected and an error message is displayed.

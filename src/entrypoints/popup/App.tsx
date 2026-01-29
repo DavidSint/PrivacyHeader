@@ -74,6 +74,18 @@ function App() {
     await saveProfiles(newProfiles);
   };
 
+  const handleImportProfiles = async (importedProfiles: Profile[]) => {
+    // Regenerate IDs to avoid conflicts
+    const processedProfiles = importedProfiles.map(p => ({
+      ...p,
+      id: crypto.randomUUID(),
+      headers: p.headers.map(h => ({ ...h, id: crypto.randomUUID() }))
+    }));
+    
+    const newProfiles = [...profiles, ...processedProfiles];
+    await saveProfiles(newProfiles);
+  };
+
   if (loading) {
     return <div className="flex items-center justify-center h-full w-full">Loading...</div>;
   }
@@ -87,6 +99,7 @@ function App() {
           onEditProfile={handleEditProfile}
           onDeleteProfile={handleDeleteProfile}
           onToggleProfile={handleToggleProfile}
+          onImportProfiles={handleImportProfiles}
         />
       )}
       {view === "edit" && (

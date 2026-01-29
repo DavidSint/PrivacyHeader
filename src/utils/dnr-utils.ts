@@ -20,9 +20,9 @@ export function generateRulesFromProfiles(profiles: Profile[]): chrome.declarati
     // Using native APPEND is preferred because the browser handles the correct separator.
     const NATIVE_APPENDABLE = new Set([
       "accept", "accept-encoding", "accept-language", "access-control-request-headers",
-      "cache-control", "connection", "content-language", "cookie", "forwarded",
+      "cache-control", "connection", "content-language", "forwarded",
       "if-match", "if-none-match", "keep-alive", "range", "te", "trailer",
-      "transfer-encoding", "upgrade", "user-agent", "via", "want-digest",
+      "transfer-encoding", "upgrade", "via", "want-digest",
       "x-forwarded-for"
     ])
 
@@ -56,9 +56,10 @@ export function generateRulesFromProfiles(profiles: Profile[]): chrome.declarati
       } else {
         // Manual fallback for custom headers using SET with correct separator
         // RFC 7230: Multiple header fields with the same name can be combined with commas.
-        // Exception: Cookie uses semicolon (though standard says it should be appendable in DNR, 
-        // we handle it here if it wasn't for some reason or just to be safe).
-        const separator = lowerName === "cookie" ? "; " : ", "
+        // Exception: Cookie uses semicolon, User-Agent uses space.
+        let separator = ", "
+        if (lowerName === "cookie") separator = "; "
+        else if (lowerName === "user-agent") separator = " "
         requestHeaders.push({
           header: originalName,
           operation: chrome.declarativeNetRequest.HeaderOperation.SET,
