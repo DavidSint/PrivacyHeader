@@ -15,7 +15,12 @@ import {
 
 function initOrama() {
   return create({
-    schema: { _: "string" },
+    schema: {
+      title: "string",
+      description: "string",
+      content: "string",
+      url: "string",
+    },
     // https://docs.orama.com/docs/orama-js/supported-languages
     language: "english",
   });
@@ -25,6 +30,7 @@ export default function DefaultSearchDialog(props: SharedProps) {
   const { search, setSearch, query } = useDocsSearch({
     type: "static",
     initOrama,
+    from: (process.env.NEXT_PUBLIC_BASE_PATH || "") + "/api/search",
   });
 
   return (
